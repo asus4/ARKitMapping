@@ -26,11 +26,13 @@ namespace AppKit.XR
 
         void Start()
         {
-            _osc = GetComponent<MultiCastOSC>();
+            // Config
+            Application.targetFrameRate = 60;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+            _osc = GetComponent<MultiCastOSC>();
             _session = UnityARSessionNativeInterface.GetARSessionNativeInterface();
 
-            Application.targetFrameRate = 60;
             var config = new ARKitWorldTrackingSessionConfiguration();
             config.planeDetection = planeDetection;
             config.alignment = startAlignment;

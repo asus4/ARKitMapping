@@ -11,21 +11,19 @@ namespace AppKit.XR
         [SerializeField] Camera _camera;
 
         MultiCastOSC _osc;
+        Transform _t;
 
         void Start()
         {
             _osc = GetComponent<MultiCastOSC>();
             _osc.OnMessage += OnOscMessage;
+
+            _t = _camera.transform;
         }
 
         void OnDestroy()
         {
             _osc.OnMessage -= OnOscMessage;
-        }
-
-        void Update()
-        {
-
         }
 
         void OnOscMessage(OSCMessage msg)
@@ -45,8 +43,9 @@ namespace AppKit.XR
                     rot.y = (System.Single)data[4];
                     rot.z = (System.Single)data[5];
                     rot.w = (System.Single)data[6];
-
-                    _camera.transform.SetPositionAndRotation(pos, rot);
+                    // _t.SetPositionAndRotation(pos, rot);
+                    _t.localPosition = pos;
+                    _t.localRotation = rot;
                     break;
                 default:
                     Debug.Log($"[OSC] {msg.Address}");
